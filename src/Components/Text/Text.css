@@ -1,0 +1,42 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .upload-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 20px;
+    position: relative; /* For positioning the close button */
+    max-width: 500px; /* Limit width for better responsiveness */
+    width: 90%; /* Responsive width */
+  }
+  
+  .close-button {
+    position: absolute; /* Position it relative to the upload-container */
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+    color: #ff0000; 
+  }
+  
+  .file-uploader {
+    margin-top: 10px;
+  }
+  
