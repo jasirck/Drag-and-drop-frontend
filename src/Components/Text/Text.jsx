@@ -1,32 +1,34 @@
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import axios from "axios";
-import './Text.css'; // Import the CSS for styling
+import './Text.css'; 
 
-const fileTypes = ["TXT", "text/plain"];
+const fileTypes = ["TXT"];
 
 function Text({ setImportModal }) {
-  const [file, setFile] = useState(null);
+
+  const [loading, setLoading] = useState(false);  // State for loading
 
   const handleChange = (selectedFile) => {
     if (selectedFile) {
-      setFile(selectedFile);
-
+      setLoading(true);  // Start loading when a file is selected
+  
       const formData = new FormData();
       formData.append("file", selectedFile);
-
+  
       axios.post("http://127.0.0.1:8000/upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then(response => {
-        console.log(response.data);
-        setFile(null); // Clear the file input
-        setImportModal(false); // Hide the modal after upload
+        setLoading(false);  // Stop loading after successful upload
+        setImportModal(false);  // Close modal
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);  // Stop loading on error
+        setImportModal(false); 
       });
     }
   };
@@ -36,14 +38,22 @@ function Text({ setImportModal }) {
       <div className="upload-container">
         <h2>Upload Your Text File</h2>
         <button onClick={() => setImportModal(false)} className="close-button">
-          &times; 
+          &times;
         </button>
-        <FileUploader 
-          handleChange={handleChange} 
-          name="file" 
-          types={fileTypes} 
-          className="file-uploader"
-        />
+
+        {loading ? (  // Show loading spinner if loading is true
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Uploading...</p>
+          </div>
+        ) : (
+          <FileUploader 
+            handleChange={handleChange} 
+            name="file" 
+            types={fileTypes} 
+            className="file-uploader"
+          />
+        )}
       </div>
     </div>
   );
